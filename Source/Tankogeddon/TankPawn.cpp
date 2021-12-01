@@ -12,6 +12,8 @@
 #include "Cannon.h"
 #include "Components/BoxComponent.h"
 #include "HealthComponent.h"
+#include "Components/WidgetComponent.h"
+#include "ActorHealthBar.h"
 
 // Sets default values
 ATankPawn::ATankPawn()
@@ -44,6 +46,10 @@ ATankPawn::ATankPawn()
     HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
     HealthComponent->OnDie.AddDynamic(this, &ATankPawn::OnDie);
     HealthComponent->OnHealthChanged.AddDynamic(this, &ATankPawn::OnHealthChanged);
+
+    //todo
+    HealthBarComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("Health bar"));
+    HealthBarComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 int32 ATankPawn::GetScores() const
@@ -181,4 +187,9 @@ void ATankPawn::OnHealthChanged_Implementation(float Damage)
 void ATankPawn::OnDie_Implementation()
 {
     Destroy();
+}
+
+float ATankPawn::GetCurrentHealth()
+{
+    return HealthComponent->GetHealthState();
 }

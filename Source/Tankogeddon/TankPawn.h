@@ -66,13 +66,18 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI|Move params")
     float MovementAccuracy = 50.f;
-
+    
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+    UPROPERTY(VisibleAnywhere)
+    class UWidgetComponent* HealthBarComponent;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+    float GetCurrentHealth();
 
     UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveForward(float InAxisValue);
